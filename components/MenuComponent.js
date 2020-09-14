@@ -1,26 +1,32 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 import { ListItem } from 'react-native-elements';
 
 function Menu(props) {
 
+    //Arrow function that receves two params
+    //Index will use for key for each ListItem
     const renderMenuItem = ({item, index}) => {
 
         return (
-                <ListItem
+               
+                  <ListItem
                     key={index}
                     title={item.name}
                     subtitle={item.description}
                     hideChevron={true}
+                    onPress={() => props.onPress(item.id)}
                     leftAvatar={{ source: require('./images/uthappizza.png')}}
                   />
         );
     };
 
+
+    //FlatList component create a list of items(ListItem component)
     return (
             <FlatList 
                 data={props.dishes}
-                renderItem={renderMenuItem}
+                renderItem={renderMenuItem} 
                 keyExtractor={item => item.id.toString()}
                 />
     );
