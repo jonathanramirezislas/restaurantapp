@@ -35,9 +35,11 @@ class Menu extends Component {
                     />
             );
         };
-        
 
+        //we extrat the navigation from props in order to use to pass data to dishditail component
         const { navigate } = this.props.navigation;
+
+       
 
         return (
             <FlatList 
