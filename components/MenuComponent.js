@@ -11,8 +11,11 @@ class Menu extends Component {
         }
     }
 
+    
+
     static navigayionOptions={
-        title: 'Menu' // in the status bar  when my menu componnet is display the title that will be shown  in the status bar would be Menu
+        title: 'Menu', // in the status bar  when my menu componnet is display the title that will be shown  in the status bar would be Menu
+        
     }
 
   
