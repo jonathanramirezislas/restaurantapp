@@ -2,7 +2,7 @@ import * as ActionTypes from './ActionTypes';
 import { baseUrl } from '../shared/baseUrl';
 
 export const fetchComments = () => (dispatch) => {
-    return fetch(baseUrl + 'comments')
+    return fetch(baseUrl + 'comments.php')
     .then(response => {
         if (response.ok) {
           return response;
@@ -35,7 +35,7 @@ export const fetchDishes = () => (dispatch) => {
 
     dispatch(dishesLoading());
 
-    return fetch(baseUrl + 'dishes')
+    return fetch(baseUrl + 'dishes.php')
     .then(response => {
         if (response.ok) {
           return response;
@@ -72,7 +72,7 @@ export const fetchPromos = () => (dispatch) => {
     
     dispatch(promosLoading());
 
-    return fetch(baseUrl + 'promotions')
+    return fetch(baseUrl + 'promotions.php')
     .then(response => {
         if (response.ok) {
             return response;
@@ -109,7 +109,7 @@ export const fetchLeaders = () => (dispatch) => {
     
     dispatch(leadersLoading());
 
-    return fetch(baseUrl + 'leaders')
+    return fetch(baseUrl + 'leaders.php')
     .then(response => {
         if (response.ok) {
             return response;
