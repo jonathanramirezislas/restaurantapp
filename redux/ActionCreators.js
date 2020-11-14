@@ -1,8 +1,10 @@
 import * as ActionTypes from './ActionTypes';
 import { baseUrl } from '../shared/baseUrl';
 
+
+//comments
 export const fetchComments = () => (dispatch) => {
-    return fetch(baseUrl + 'comments.php')
+    return fetch(baseUrl + '/comments.php')
     .then(response => {
         if (response.ok) {
           return response;
@@ -31,6 +33,8 @@ export const addComments = (comments) => ({
     payload: comments
 });
 
+
+//Dishes
 export const fetchDishes = () => (dispatch) => {
 
     dispatch(dishesLoading());
@@ -68,11 +72,12 @@ export const addDishes = (dishes) => ({
     payload: dishes
 });
 
+//Promotions
 export const fetchPromos = () => (dispatch) => {
     
     dispatch(promosLoading());
 
-    return fetch(baseUrl + 'promotions.php')
+    return fetch(baseUrl + '/promotions.php')
     .then(response => {
         if (response.ok) {
             return response;
@@ -105,11 +110,12 @@ export const addPromos = (promos) => ({
     payload: promos
 });
 
+//Leaders
 export const fetchLeaders = () => (dispatch) => {
     
     dispatch(leadersLoading());
 
-    return fetch(baseUrl + 'leaders.php')
+    return fetch(baseUrl + '/leaders.php')
     .then(response => {
         if (response.ok) {
             return response;
