@@ -148,12 +148,45 @@ export const addLeaders = (leaders) => ({
     payload: leaders
 });
 
+//Favorites
+export const fetchFavorites = () => (dispatch) => {
+    
+    dispatch(favoritesLoading());
+
+    return fetch(baseUrl + '/favorites.php')
+    .then(response => {
+        if (response.ok) {
+            return response;
+        } else {
+            var error = new Error('Error ' + response.status + ': ' + response.statusText);
+            error.response = response;
+            throw error;
+        }
+        },
+        error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+        })
+    .then(response => response.json())
+    .then(favorites => dispatch(addFavorite(favorites)))
+    .catch(error => dispatch(favoritesFailed(error.message)));
+};
+
 export const postFavorite = (dishId)  => (dispatch) => {
 
     setTimeout(() => {
         dispatch(addFavorite(dishId));
     }, 2000);
 };
+
+export const favoritesLoading = () => ({
+    type: ActionTypes.LEADERS_LOADING
+});
+
+export const favoritesFailed = (errmess) => ({
+    type: ActionTypes.LEADERS_FAILED,
+    payload: errmess
+});
 
 
 export const addFavorite = (dishId) => ({

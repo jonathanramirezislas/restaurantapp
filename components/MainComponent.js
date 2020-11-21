@@ -5,14 +5,18 @@ import { createDrawerNavigator, DrawerItems,DrawerItemsList , SafeAreaView } fro
 import { Icon } from 'react-native-elements';
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import { connect } from 'react-redux';
-import { fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
+import { fetchDishes, fetchComments, fetchPromos, fetchLeaders, fetchFavorites } from '../redux/ActionCreators';
 import {  StyleSheet } from 'react-native';
+
+
+
 const mapStateToProps = state => {
 return {
     dishes: state.dishes,
     comments: state.comments,
     promotions: state.promotions,
-    leaders: state.leaders
+    leaders: state.leaders,
+    favorites: state.favorites
 }
 }
   
@@ -21,6 +25,7 @@ const mapDispatchToProps = dispatch => ({
     fetchComments: () => dispatch(fetchComments()),
     fetchPromos: () => dispatch(fetchPromos()),
     fetchLeaders: () => dispatch(fetchLeaders()),
+    fetchFavorites: () => dispatch(fetchFavorites()),
 })
   
 
@@ -30,6 +35,8 @@ import Menu from './MenuComponent';
 import Dishdetail from './DishdetailComponent';
 import About from './AboutComponent';
 import Contact from './ContactComponent';
+import Reservation from './ReservationComponent';
+import Favorites from './FavoriteComponent';
 
 
 const StackNavigator = createStackNavigator();
@@ -117,6 +124,55 @@ function AboutNavigatorScreen({ navigation }) {
             <StackNavigator.Screen
                 name="About"
                 component={About}
+            />          
+        </StackNavigator.Navigator>
+    );
+}
+
+
+function ReservationNavigatorScreen({ navigation }) {
+    return(
+        <StackNavigator.Navigator
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: "#512DA8"
+                },
+                headerTintColor: "#fff",
+                headerTitleStyle: {
+                    color: "#fff"            
+                },
+                headerLeft:() => ( <Icon name="menu" size={24} 
+                        color= 'white'
+                        onPress={ () => navigation.toggleDrawer() } />),
+            }}
+        >
+            <StackNavigator.Screen
+                name="Reservation"
+                component={Reservation}
+            />          
+        </StackNavigator.Navigator>
+    );
+}
+
+function FavoritesNavigatorScreen({ navigation }) {
+    return(
+        <StackNavigator.Navigator
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: "#512DA8"
+                },
+                headerTintColor: "#fff",
+                headerTitleStyle: {
+                    color: "#fff"            
+                },
+                headerLeft:() => ( <Icon name="menu" size={24} 
+                        color= 'white'
+                        onPress={ () => navigation.toggleDrawer() } />),
+            }}
+        >
+            <StackNavigator.Screen
+                name="Favorites"
+                component={Favorites}
             />          
         </StackNavigator.Navigator>
     );
@@ -220,12 +276,36 @@ function MainNavigatorScreen() {
                     />
                   ), }}
             />
-           
+             <Drawer.Screen
+                name="Reservation"
+                component={ReservationNavigatorScreen}
+                options={{ headerTitle: 'Reservation', drawerLabel:'Reservation',
+                drawerIcon: ({focused}) => (
+                    <Icon
+                    name='tasks'
+                    type='font-awesome'            
+                    size={22}
+                      color={focused ? '#7cc' : '#ccc'}
+                    />
+                  ), }}
+            />
+                <Drawer.Screen
+                name="Favorites"
+                component={FavoritesNavigatorScreen}
+                options={{ headerTitle: 'Favorites', drawerLabel:'Favorites',
+                drawerIcon: ({focused}) => (
+                    <Icon
+                    name='heart'
+                    type='font-awesome'            
+                    size={22}
+                      color={focused ? '#7cc' : '#ccc'}
+                    />
+                  ), }}
+            />
                       
         </Drawer.Navigator>
     );
 }
-
 
 class Main extends Component {
     componentDidMount() {
@@ -233,6 +313,7 @@ class Main extends Component {
         this.props.fetchComments();
         this.props.fetchPromos();
         this.props.fetchLeaders();
+        this.props.fetchFavorites();
       }
    
   render() {

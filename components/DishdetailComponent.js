@@ -85,7 +85,7 @@ class Dishdetail extends Component {
             <ScrollView>
               
                 <RenderDish dish={this.props.dishes.dishes[+dishId]}
-               //     favorite={this.props.favorites.some(el => el === dishId)}
+                   favorite={this.props.favorites.some(el => el === dishId)}
                   
                onPress={() => this.markFavorite(dishId)} 
                 />
