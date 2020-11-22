@@ -21,12 +21,51 @@ const mapDispatchToProps = dispatch => ({
 })
 
 function RenderDish(props) {
+	const dish = props.dish;
 
-    const dish = props.dish;
+	handleViewRef = ref => { this.view = ref}//get reference to the View
+
+	//destructuring
+	const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
+        if ( dx < -200 )//distance accumulated less than 200(right to left)
+            return true;
+        else
+            return false;
+	}
+	
+	const panResponder = PanResponder.create({
+		//this funtion will be called in the first gesture from user on the screen
+        onStartShouldSetPanResponder: (e, gestureState) => {
+            return true;/* Indicate that funtion pick up  the pangetsure and strat responding to it*/
+        },
+		//For animation of Component aply rubberband for 1 second 
+		onPanResponderGrant: () => {this.view.rubberBand(1000).then(endState =>
+			console.log(endState.finished ? 'finished' : 'cancelled'));},//endState.finished tell me eather the animation was correctly done or not
+		
+		//this will be invoked after user lifts their finger off the screen after perfoming the gesture
+		onPanResponderEnd: (e, gestureState) => {
+            console.log("pan responder end", gestureState);
+            if (recognizeDrag(gestureState))
+                Alert.alert(
+                    'Add Favorite',
+                    'Are you sure you wish to add ' + dish.name + ' to favorite?',
+                    [
+                    {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                    {text: 'OK', onPress: () => {props.favorite ? console.log('Already favorite') : props.onPress()}},
+                    ],
+                    { cancelable: false }
+                );
+
+            return true;
+        }
+    })
+
     
-        if (dish != null) {
-            return(
-                <Animatable.View animation="fadeInDown" duration={2000} delay={1000}>
+	if (dish != null) {
+        return(
+            <Animatable.View animation="fadeInDown" duration={2000} delay={1000}
+			ref={this.handleViewRef}
+			{...panResponder.panHandlers}>{/* add funtions to this View*/}
                 <Card
                 featuredTitle={dish.name}
                 image={{uri: baseUrl + dish.image}}>

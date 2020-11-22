@@ -65,7 +65,8 @@ class Home extends Component {
         {
           toValue: 8,// from 0 to 8. NOTE this will be used in xpos1,xpos2,xpos3
           duration: 8000,//duration 8 seconds
-          easing: Easing.linear //way to change the value in this case linear
+          easing: Easing.linear, //way to change the value in this case linear
+          useNativeDriver:true
         }
       ).start(() => this.animate());//start the animation
   }
