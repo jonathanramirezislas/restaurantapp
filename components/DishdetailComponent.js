@@ -21,9 +21,11 @@ const mapDispatchToProps = dispatch => ({
 })
 
 function RenderDish(props) {
+
 	const dish = props.dish;
 
-	handleViewRef = ref => { this.view = ref}//get reference to the View
+	//assign ref to this view (this view will use to apply a animation)
+	handleViewRef =  (ref) => (this.view = ref);//set the ref
 
 	//destructuring
 	const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
@@ -31,8 +33,14 @@ function RenderDish(props) {
             return true;
         else
             return false;
-	}
-	
+	};
+	const recognizeComment = ({ moveX, moveY, dx, dy }) => {
+		if (dx > 200)
+		 	return true;
+		else
+		 	return false;
+	};
+
 	const panResponder = PanResponder.create({
 		//this funtion will be called in the first gesture from user on the screen
         onStartShouldSetPanResponder: (e, gestureState) => {
@@ -55,7 +63,9 @@ function RenderDish(props) {
                     ],
                     { cancelable: false }
                 );
-
+			else if (recognizeComment(gestureState)) {
+					props.toggleModal();
+			}
             return true;
         }
     })
