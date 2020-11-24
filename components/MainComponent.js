@@ -1,4 +1,4 @@
-import React, { Component,ReactElement } from 'react';
+import React, { Component } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator  } from '@react-navigation/stack';
 import { createDrawerNavigator, DrawerItems,DrawerItemsList , SafeAreaView } from '@react-navigation/drawer';
@@ -37,6 +37,7 @@ import About from './AboutComponent';
 import Contact from './ContactComponent';
 import Reservation from './ReservationComponent';
 import Favorites from './FavoriteComponent';
+import Login from './LoginComponent';
 
 
 const StackNavigator = createStackNavigator();
@@ -205,6 +206,32 @@ function ContactNavigatorScreen({ navigation }) {
     );
 }
 
+function LoginNavigatorScreen({ navigation }) {
+    return(
+        <StackNavigator.Navigator
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: "#512DA8"
+                },
+                headerTintColor: "#fff",
+                headerTitleStyle: {
+                    color: "#fff"            
+                },
+                headerLeft:() => ( <Icon name="menu" size={24} 
+                        color= 'white'
+                        onPress={ () => navigation.toggleDrawer() } />),
+            }}
+        >
+            <StackNavigator.Screen
+                name="Login"
+                component={Login}
+            />          
+        </StackNavigator.Navigator>
+    );
+}
+
+
+
 
 
 
@@ -214,14 +241,30 @@ const Drawer = createDrawerNavigator();
 
 function MainNavigatorScreen() {
     return(
-        <Drawer.Navigator
-        initialRouteName="Home"
-        drawerStyle={{
-            backgroundColor: '#C9DFE7',
-            width: 240,
+        
+        
+            <Drawer.Navigator
+            initialRouteName="Home"
+            drawerStyle={{
+                backgroundColor: '#C9DFE7',
+                width: 240,
 
-          }}
-        >
+            }}
+            >
+            <Drawer.Screen
+                name="Login"
+                component={LoginNavigatorScreen}
+                options={{ headerTitle: 'Login', drawerLabel:'Login',
+                drawerIcon: ({focused}) => (
+                    <Icon
+                    name='Login'
+                    type='sign-in'            
+                    size={22}
+                        color={focused ? '#7cc' : '#ccc'}
+                    />
+                    ), }}
+             />     
+
             <Drawer.Screen
                 name="Home"
                 component={HomeNavigatorScreen}
@@ -235,7 +278,7 @@ function MainNavigatorScreen() {
                     />
                   ), }}
 
-                />
+            />
             <Drawer.Screen
                 name="Menu"
                 component={MenuNavigatorScreen}
@@ -302,7 +345,7 @@ function MainNavigatorScreen() {
                     />
                   ), }}
             />
-                      
+                
         </Drawer.Navigator>
     );
 }

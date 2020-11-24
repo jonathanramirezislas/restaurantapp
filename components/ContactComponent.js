@@ -7,17 +7,16 @@ class Contact extends Component {
         title: 'Contact Us'
       };
 
-
      render() {
         return(
             <View>
                  <Card title='Contact Information'>
                     <Text>121, Clear Water Bay Road</Text>
                     <Text>Clear Water Bay, Kowloon</Text>
-                    <Text>HONG KONG</Text>
-                    <Text>Tel: +852 1234 5678</Text>
-                    <Text>Fax: +852 8765 4321</Text>
-                    <Text>Email:confusion@food.net</Text>
+                    <Text>Mexico</Text>
+                    <Text>Tel: +449 1234 5678</Text>
+                    <Text>Fax: +499 8765 4321</Text>
+                    <Text>Email:jonathan@jonathan.com.mx</Text>
                     <Button title="Send Email"
                     buttonStyle={{backgroundColor: "#512DA8"}}
                     icon={<Icon name='envelope-o' type='font-awesome' color='white' />}
