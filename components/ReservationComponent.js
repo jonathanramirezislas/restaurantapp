@@ -5,7 +5,8 @@ import * as Animatable from 'react-native-animatable';
 import * as Permissions from 'expo-permissions';
 import * as Calendar  from 'expo-calendar';
 import { Notifications } from 'expo';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DatePicker from 'react-native-datepicker'
+
 
 class Reservation extends Component {
     constructor(props) {
@@ -13,7 +14,7 @@ class Reservation extends Component {
         this.state = {
             guests: 1,
             smoking: false,
-            date: new Date(this.props.date)       
+            date:"2016-05-15"     
          }
 this.setDate = this.setDate.bind(this);
     }
@@ -150,16 +151,30 @@ this.setDate = this.setDate.bind(this);
                 </View>
                 <View style={styles.formRow}>
                 <Text style={styles.formLabel}>Date and Time</Text>
-            
-                <DateTimePicker
-                        testID="dateTimePicker"
-                       // timeZoneOffsetInMinutes={0}
-                        value={new Date(2020, 1, 1)}
-                        mode="date"
-                        is24Hour={true}
-                        display="default"
-                        onChange={this.setDate}
-                         />
+                <DatePicker
+                    style={{width: 200}}
+                    date={this.state.date}
+                    mode="date"
+                    placeholder="select date"
+                    format="YYYY-MM-DD"
+                    minDate="2016-05-01"
+                    maxDate="2016-06-01"
+                    confirmBtnText="Confirm"
+                    cancelBtnText="Cancel"
+                    customStyles={{
+                    dateIcon: {
+                        position: 'absolute',
+                        left: 0,
+                        top: 4,
+                        marginLeft: 0
+                    },
+                    dateInput: {
+                        marginLeft: 36
+                    }
+                        }}
+                        onDateChange={(date) => {this.setState({date: date})}}
+                    />
+               
                 </View>
                 <View style={styles.formRow}>
                 <Button
