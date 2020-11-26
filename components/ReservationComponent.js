@@ -14,7 +14,7 @@ class Reservation extends Component {
         this.state = {
             guests: 1,
             smoking: false,
-            date:"2016-05-15"     
+            date:"2020-11-30"     
          }
 this.setDate = this.setDate.bind(this);
     }
@@ -157,8 +157,8 @@ this.setDate = this.setDate.bind(this);
                     mode="date"
                     placeholder="select date"
                     format="YYYY-MM-DD"
-                    minDate="2016-05-01"
-                    maxDate="2016-06-01"
+                    minDate="2020-11-11"
+                    maxDate="2021-06-01"
                     confirmBtnText="Confirm"
                     cancelBtnText="Cancel"
                     customStyles={{
