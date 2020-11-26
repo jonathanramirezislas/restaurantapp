@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, FlatList, StyleSheet, Modal, Button, Alert, PanResponder } from 'react-native';
+import { Share, Text, View, ScrollView, FlatList, StyleSheet, Modal, Button, Alert, PanResponder } from 'react-native';
 import { Card, Icon, Rating, Input } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
@@ -41,6 +41,31 @@ function RenderDish(props) {
 		 	return false;
 	};
 
+	const  shareDish = async (title, message, url) =>{
+		  try {
+			const result = await Share.share({
+				title: title,
+				message: title + ': ' + message + ' ' + url,
+				url: url
+			},{
+				dialogTitle: 'Share ' + title
+			});
+			if (result.action === Share.sharedAction) {
+			  if (result.activityType) {
+				// shared with activity type of result.activityType
+			  } else {
+				// shared
+			  }
+			} else if (result.action === Share.dismissedAction) {
+			  // dismissed
+			}
+		  } catch (error) {
+			alert(error.message);
+		  }
+		}
+	
+
+
 	const panResponder = PanResponder.create({
 		//this funtion will be called in the first gesture from user on the screen
         onStartShouldSetPanResponder: (e, gestureState) => {
@@ -70,6 +95,7 @@ function RenderDish(props) {
         }
     })
 
+
     
 	if (dish != null) {
         return(
@@ -97,6 +123,14 @@ function RenderDish(props) {
 							type="font-awesome"
 							color="#512DA8"
 							onPress={() => props.toggleModal()}
+						/>
+						<Icon
+							raised
+							reverse
+							name='share'
+                            type='font-awesome'
+							color='#51D2A8'
+							onPress={() => shareDish(dish.name, dish.description, baseUrl + dish.image)} 
 						/>
                 </Card>
                 </Animatable.View>
@@ -148,7 +182,7 @@ class Dishdetail extends Component {
 			comment: '',
 			showModal: false
 		};
-		this.handleComments = this.handleComments.bind(this);
+
 	}
 
 	toggleModal() {
