@@ -33,13 +33,6 @@ class Contact extends Component {
                     icon={<Icon name='envelope-o' type='font-awesome' color='white' />}
                     onPress={this.sendMail}
                     />
-                    <Button
-                        title="Send Email"
-                        buttonStyle={{backgroundColor: "#512DA8"}}
-                        icon={<Icon name='envelope-o' type='font-awesome' color='white' />}
-                        onPress={this.sendMail}
-                        />
-                        
                 </Card>
             </View>
                
