@@ -3,9 +3,9 @@ import { View, StyleSheet, Text, ScrollView, Image } from 'react-native';
 import { Input, CheckBox, Button, Icon } from 'react-native-elements';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-
 import * as SecureStore from 'expo-secure-store';
 import * as ImagePicker from 'expo-image-picker';
+import * as ImageManipulator from 'expo-image-manipulator';
 import * as Permissions from 'expo-permissions';
 import { baseUrl } from '../shared/baseUrl';
 
@@ -161,15 +161,29 @@ class RegisterTab extends Component {
         const cameraRollPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
         if (cameraPermission.status === 'granted' && cameraRollPermission.status === 'granted') {
+         //save the image
             let capturedImage = await ImagePicker.launchCameraAsync({
                 allowsEditing: true,
                 aspect: [4, 3],
             });
             if (!capturedImage.cancelled) {
                 console.log(capturedImage);
-                this.setState({imageUrl: capturedImage.uri });
+                this.processImage(capturedImage.uri);
             }
         }
+
+    }
+    //manipulate the image
+    processImage = async (imageUri) => {
+        let processedImage = await ImageManipulator.manipulate(
+            imageUri, 
+            [
+                {resize: {width: 400}} //resize image
+            ],
+            {format: 'png'}//convert form jpg to png
+        );
+        console.log(processedImage);
+        this.setState({imageUrl: processedImage.uri });
 
     }
     
@@ -187,7 +201,7 @@ class RegisterTab extends Component {
 
     handleRegister() {
         console.log(JSON.stringify(this.state));
-        if (this.state.remember)
+        if (this.state.remember) //Save the user info permanently(SecureStore)
             SecureStore.setItemAsync('userinfo', JSON.stringify({username: this.state.username, password: this.state.password}))
                 .catch((error) => console.log('Could not save user info', error));
     }
@@ -197,6 +211,7 @@ class RegisterTab extends Component {
             <ScrollView>
             <View style={styles.container}>
                 <View style={styles.imageContainer}>
+                    {/* Image from camara */}
                     <Image 
                         source={{uri: this.state.imageUrl}} 
                         loadingIndicatorSource={require('./images/logo.png')}

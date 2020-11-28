@@ -6,7 +6,8 @@ import { Icon } from 'react-native-elements';
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import { connect } from 'react-redux';
 import { fetchDishes, fetchComments, fetchPromos, fetchLeaders, fetchFavorites } from '../redux/ActionCreators';
-import {  StyleSheet } from 'react-native';
+import { StyleSheet, ToastAndroid } from 'react-native';
+import NetInfo from "@react-native-community/netinfo";
 
 
 
@@ -350,15 +351,49 @@ function MainNavigatorScreen() {
     );
 }
 
+
+   
 class Main extends Component {
+
     componentDidMount() {
-        this.props.fetchDishes();
+         this.props.fetchDishes();
         this.props.fetchComments();
         this.props.fetchPromos();
         this.props.fetchLeaders();
         this.props.fetchFavorites();
+    
+        NetInfo.fetch().then((connectionInfo) => {
+            ToastAndroid.show('Initial Network Connectivity Type: '
+                + connectionInfo.type, ToastAndroid.LONG)
+        });
+        //add listener and this method will eb called each time the net status change
+        NetInfo.addEventListener(connectionChange => this.handleConnectivityChange(connectionChange))
+    }
+    
+componentWillUnmount() {
+    //remove the listener
+        NetInfo.removeEventListener(connectionChange => this.handleConnectivityChange(connectionChange))
+    }
+
+handleConnectivityChange = (connectionInfo) => {
+      switch (connectionInfo.type) {
+          case 'none': 
+              ToastAndroid.show ('You are now offline', ToastAndroid.LONG);
+              break;
+          case 'wifi':
+              ToastAndroid.show ('You are now on WiFi', ToastAndroid.LONG);
+              break;
+          case 'cellular':
+              ToastAndroid.show ('You are now on Cellular', ToastAndroid.LONG);
+              break;
+          case 'unknown' :
+              ToastAndroid.show ('You are now have an Unknown connection', ToastAndroid.LONG);
+              break;
+          default: 
       }
-   
+    }
+
+
   render() {
     return (
         <NavigationContainer>
